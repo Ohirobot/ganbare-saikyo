@@ -2,22 +2,10 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>埼京線遅延情報</title>
+    <title>がんばれ埼京線</title>
 </head>
 <body>
-    <h1>埼京線遅延情報</h1>
-    <ul>
-    {% for delay in delays %}
-        <li>
-            <strong>{{ delay.linename }}</strong>
-            {% if delay.delaystatus %}
-                <span style="color: red;">遅延中</span>
-                <p>遅延理由: {{ delay.delayreason }}</p>
-            {% else %}
-                <span style="color: green;">運行正常</span>
-            {% endif %}
-        </li>
-    {% endfor %}
-    </ul>
+    <h1>🚃 がんばれ埼京線（準備中）</h1>
+    <p>このサイトは現在開発中です。</p>
 </body>
 </html>
