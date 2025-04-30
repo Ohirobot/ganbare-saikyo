@@ -1,22 +1,18 @@
 <!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>がんばれ埼京線</title>
-</head>
-<body>
-  <h1 id="line">路線名</h1>
-  <p id="status">運行状況</p>
-  <p id="message">メッセージ</p>
-
-  <script>
-    fetch('/api/status/saikyo')
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById("line").textContent = data.line;
-        document.getElementById("status").textContent = data.status;
-        document.getElementById("message").textContent = data.message;
-      });
-  </script>
-</body>
+<html>
+  <head>
+    <title>がんばれ埼京線</title>
+  </head>
+  <body>
+    <h1>JR埼京線の運行情報</h1>
+    <ul>
+      {% for status in status_list %}
+      <li>
+        <strong>{{ status.timestamp|date:"H:i" }}</strong> -
+        <strong>{{ status.status }}</strong><br />
+        {{ status.message }}
+      </li>
+      {% endfor %}
+    </ul>
+  </body>
 </html>

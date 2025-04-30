@@ -1,10 +1,21 @@
-from django.shortcuts import render
-from django.http import JsonResponse
 import json
+from django.shortcuts import render
+from .models import TrainStatus
+from django.conf import settings
 import os
+from datetime import datetime
 
-def saikyo_status(request):
-    file_path = os.path.join(os.path.dirname(__file__), 'mock_data', 'saikyo_status.json')
-    with open(file_path, 'r', encoding='utf-8') as f:
+def load_mock_data(request):
+    json_path = os.path.join(settings.BASE_DIR, 'traininfo/static/mock/train_status.json')
+    with open(json_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
-    return JsonResponse(data)
+
+    TrainStatus.objects.all().delete()  # リセット（開発中のみ）
+    for item in data:
+        TrainStatus.objects.create(
+            line_name=item["line_name"],
+            status=item["status"],
+            message=item["message"],
+            timestamp=datetime.fromisoformat(item["timestamp"])
+        )
+    return render(request, 'index.html', {'status_list': TrainStatus.objects.all()})
