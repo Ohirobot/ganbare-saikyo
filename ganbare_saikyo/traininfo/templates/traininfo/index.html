@@ -1,0 +1,31 @@
+{% extends "traininfo/base.html" %}
+
+{% block title %}トップページ{% endblock %}
+
+{% block content %} 
+  <h1 class="mb-4">JR埼京線の運行情報</h1>
+
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    {% for status in status_list %}
+      <div class="col">
+        <div class="card h-100">
+          <div class="card-header">
+            {{ status.timestamp|date:"Y年m月d日(D) H:i" }}
+          </div>
+          <div class="card-body">
+            <h5 class="card-title">{{ status.status }}</h5>
+            <p class="card-text">
+              {% if status.message %}
+                {{ status.message }}
+              {% else %}
+                <em>運行状況に関する詳細はありません。</em>
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-muted">現在、表示できる運行情報はありません。</p>
+    {% endfor %}
+  </div>
+{% endblock %}

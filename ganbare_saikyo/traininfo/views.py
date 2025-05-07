@@ -18,4 +18,6 @@ def load_mock_data(request):
             message=item["message"],
             timestamp=datetime.fromisoformat(item["timestamp"])
         )
-    return render(request, 'index.html', {'status_list': TrainStatus.objects.all()})
+    return render(request, 'traininfo/index.html', {
+    'status_list': TrainStatus.objects.all().order_by('-timestamp')
+})
