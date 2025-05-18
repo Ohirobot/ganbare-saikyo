@@ -21,3 +21,6 @@ def load_mock_data(request):
     return render(request, 'traininfo/index.html', {
     'status_list': TrainStatus.objects.all().order_by('-timestamp')
 })
+
+def about(request):
+    return render(request, 'traininfo/about.html')

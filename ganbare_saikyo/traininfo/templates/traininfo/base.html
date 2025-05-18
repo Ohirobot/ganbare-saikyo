@@ -1,25 +1,59 @@
 <!DOCTYPE html>
 <html lang="ja">
+  {% load static %}
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{% block title %}がんばれ埼京線{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+    <!-- Bootstrap CDN（そのままでOK） -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- 自作CSS -->
+    <link rel="stylesheet" href="{% static 'traininfo/css/style.css' %}" />
   </head>
+
   <body>
-    <header class="bg-dark text-white p-3">
-      <div class="container">
-        <a href="{% url 'index' %}" class="text-white text-decoration-none">がんばれ埼京線</a>
-      </div>
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+          <a class="navbar-brand" href="{% url 'index' %}">がんばれ埼京線</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item">
+                <a class="nav-link text-white" href="{% url 'index' %}"
+                  >ホーム</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white" href="{% url 'about' %}"
+                  >このサイトについて</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
     </header>
 
-    <main class="container mt-4">
-        {% block content %} 
-        {% endblock %}
-    </main>
+    <main class="container mt-4">{% block content %} {% endblock %}</main>
 
     <footer class="bg-light text-center py-3 mt-5">
       <small>&copy; 2025 がんばれ埼京線プロジェクト</small>
     </footer>
+
+    <!-- HTMLの描画が終わってからJSを読み込ませることで、パフォーマンスが良くなる＆描画トラブルを避けられる -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
