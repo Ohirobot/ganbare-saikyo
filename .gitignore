@@ -2,4 +2,4 @@ myvenv/
 .vscode/
 claude_config.json
 requirements.txt
-開発メモ.txt
+開発メモ.md
