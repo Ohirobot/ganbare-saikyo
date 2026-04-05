@@ -1,31 +1,82 @@
 {% extends "traininfo/base.html" %}
 
+{% load static %}
+
 {% block title %}トップページ{% endblock %}
 
 {% block content %} 
-  <h1 class="mb-4">JR埼京線の運行情報</h1>
+<div class="container">
 
-  <div class="row row-cols-1 row-cols-md-2 g-4">
+  <h1 class="mb-4">🚃 JR埼京線の運行情報</h1>
+
+  {% for status in status_list %}
+    {% if forloop.first %}
+      <!-- 最新情報（目立たせる） -->
+      <div class="alert {% if '遅延' in status.status %}alert-danger{% else %}alert-success{% endif %} mb-4">
+        <h4 class="alert-heading">最新の運行情報</h4>
+        <p class="mb-1 fw-bold">
+          {% if '遅延' in status.status %}
+            ⚠ {{ status.status }}
+          {% else %}
+            ✔ {{ status.status }}
+          {% endif %}
+        </p>
+        <small>{{ status.timestamp|date:"Y-m-d H:i:s" }}</small>
+      </div>
+    {% endif %}
+  {% endfor %}
+
+  <div id="status-container" class="row row-cols-1 row-cols-md-2 g-4">
     {% for status in status_list %}
       <div class="col">
-        <div class="card h-100">
-          <div class="card-header">
-            {{ status.timestamp|date:"Y年m月d日(D) H:i" }}
+        <div class="card h-100 shadow-sm">
+
+          <!-- ヘッダー -->
+          <div class="card-header d-flex justify-content-between">
+            <span class="text-muted small">
+              {{ status.timestamp|date:"Y-m-d H:i:s" }}
+            </span>
+
+            {% if '遅延' in status.status %}
+              <span class="badge bg-danger">遅延</span>
+            {% else %}
+              <span class="badge bg-success">正常</span>
+            {% endif %}
           </div>
+
+          <!-- ボディ -->
           <div class="card-body">
-            <h5 class="card-title">{{ status.status }}</h5>
+            <h5 class="card-title">
+              {% if '遅延' in status.status %}
+                ⚠ {{ status.status }}
+              {% else %}
+                ✔ {{ status.status }}
+              {% endif %}
+            </h5>
+
             <p class="card-text">
               {% if status.message %}
                 {{ status.message }}
               {% else %}
-                <em>運行状況に関する詳細はありません。</em>
+                <span class="text-muted">詳細情報はありません</span>
               {% endif %}
             </p>
           </div>
+
         </div>
       </div>
     {% empty %}
-      <p class="text-muted">現在、表示できる運行情報はありません。</p>
+      <div class="text-center py-5">
+        <h5 class="text-muted">🚫 運行情報がありません</h5>
+        <p class="text-muted">データ取得後に表示されます</p>
+      </div>
     {% endfor %}
   </div>
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'traininfo/js/train-status.js' %}"></script>
 {% endblock %}
