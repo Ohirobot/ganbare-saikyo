@@ -3,3 +3,7 @@ myvenv/
 claude_config.json
 requirements.txt
 開発メモ.md
+
+# Pythonのキャッシュフォルダを無視
+__pycache__/
+*.py[cod]
