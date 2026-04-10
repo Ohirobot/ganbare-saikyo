@@ -2,20 +2,22 @@
 # APIで取得したデータをDBに格納する
 
 # load_train_status.py
-import os
-import django
 import json
+import os
 from datetime import datetime
 
+import django
+
 # Djangoの設定を読み込む
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ganbare_saikyo.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ganbare_saikyo.settings")
 django.setup()
 
 from traininfo.models import TrainStatus
 
+
 def main():
-    json_path = os.path.join('traininfo', 'static', 'mock', 'train_status.json')
-    with open(json_path, 'r', encoding='utf-8') as f:
+    json_path = os.path.join("traininfo", "static", "mock", "train_status.json")
+    with open(json_path, "r", encoding="utf-8") as f:
         data = json.load(f)
 
     TrainStatus.objects.all().delete()
@@ -24,9 +26,10 @@ def main():
             line_name=item["line_name"],
             status=item["status"],
             message=item["message"],
-            timestamp=datetime.fromisoformat(item["timestamp"])
+            timestamp=datetime.fromisoformat(item["timestamp"]),
         )
     print("✅ データの更新が完了しました")
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

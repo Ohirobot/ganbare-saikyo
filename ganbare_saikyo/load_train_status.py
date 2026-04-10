@@ -1,11 +1,11 @@
 import os
-import requests
-import django
-import json
 from datetime import datetime
 
+import django
+import requests
+
 # Djangoの設定を読み込む
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'ganbare_saikyo.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "ganbare_saikyo.settings")
 django.setup()
 
 from traininfo.models import TrainStatus
@@ -17,8 +17,8 @@ def fetch_train_status_from_api():
     api_key = "YOUR_API_KEY"  # ← 本番は settings.py や環境変数から取得が推奨
 
     params = {
-        'key': api_key,
-        'line': 'JR.Saikyo'  # 埼京線のコード（実際はAPI仕様書で確認）
+        "key": api_key,
+        "line": "JR.Saikyo",  # 埼京線のコード（実際はAPI仕様書で確認）
     }
 
     response = requests.get(api_url, params=params)
@@ -36,7 +36,7 @@ def save_train_status(data):
             line_name=item.get("Name", "不明"),
             status=item.get("Status", "未設定"),
             message=item.get("Text", "詳細なし"),
-            timestamp=datetime.now()  # or APIから取得できる場合はそれ
+            timestamp=datetime.now(),  # or APIから取得できる場合はそれ
         )
 
 
@@ -46,5 +46,5 @@ def main():
     print("✅ 駅すぱあとAPIから運行情報を更新しました")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
